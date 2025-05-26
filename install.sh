@@ -20,6 +20,7 @@ sudo chmod +x "$destination/DinoWall/lib/count.sh"
 sudo chmod +x "$destination/DinoWall/lib/sunrise.sh"
 sudo chmod +x "$destination/DinoWall/lib/sunset.sh"
 sudo chmod +w "$destination/DinoWall/lib/cache.json"
+sudo chown $USER:$USER "$destination/DinoWall/lib/cache.json"
 
 if [[ -L /usr/bin/dinowall ]]; then
   echo -e "\e[31mRemoving old dinowall link...\e[0m"
