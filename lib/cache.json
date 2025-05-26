@@ -1,0 +1,8 @@
+{
+  "sunrise": "/home/cooperbousum/Downloads/dynamic/out1228.png",
+  "source_dir": "/home/cooperbousum/Downloads/dynamic",
+  "sunset": "/home/cooperbousum/Downloads/dynamic/out1800.png",
+  "loglevel": "2",
+  "interval": "auto",
+  "transition_type": "fade"
+}
