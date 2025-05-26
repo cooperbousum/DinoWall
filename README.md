@@ -20,7 +20,7 @@ Be sure to run this in the directory you are planning to use for DinoWall else t
 - `jq` - for parsing/updating json variables
 Install these with your favorite package manager
 
-I would love to write an install script, but for now follow these steps to install DinoWall
+I would love to write an install script, but for now follow these steps to install DinoWall:
 1. Clone this repository into your desired directory
 ```bash
 $ git clone https://github.com/cooperbousum/DinoWall.git
