@@ -6,11 +6,11 @@ DinoWall is meant for use on compositors that implement `wlr-layer-shell` (becau
 ### Source Directory
 The source directory is essentially a video split into individual image files. These files are then cycled through by DinoWall so that the timelapse syncs with your current daylight cycle (i.e. the wallpaper will show sunrise at sunrise, noon at noon, and sunset at sunset, and everywhere in between). The recommended method for this is either taking your own timelapse using individual photos, editing the sequence so that it conforms to the sunrise to sunrise format, and specifying the directory to DinoWall. Alternatively, you can use ffmpeg to turn a video timelapse into an image sequence: 
 ```bash
-ffmpeg -i video.mp4 out%d.png
+$ ffmpeg -i video.mp4 out%d.png
 ```
 This will extract every frame from the video, though you can output less, such as once a second with 
 ```bash
-ffmpeg -i input.mp4 -vf fps=1 out%d.png
+$ ffmpeg -i input.mp4 -vf fps=1 out%d.png
 ```
 Be sure to run this in the directory you are planning to use for DinoWall else there will be some cleanup required.
 
