@@ -33,6 +33,13 @@ $ ./install.sh
 ```
 3. DinoWall is now installed! Follow the help menu for next steps.
 
+## Usage
+Because dinowall is just a bash script, it is interrupted by things like reboots, hibernation, and sleep events. For this reason, if you want to launch it at startup or after reboot/sleep, you will need to run `dinowall -e` again. In hyprland, for example, I have
+```hyprlang
+exec-once = bash -c 'sleep 2 && dinowall -e'
+```
+in my hyprland.conf. The sleep is recommended because immediately after startup, it is likely that all required system timing components are not fully initialized, and the interval between images might not be run correctly. I suggest trying different sleep values to see what works best on your system.
+
 ## Final Notes and Roadmap
 You might notice that DinoWall runs as a constant process instead of being run intermittently by a job scheduler. This is due to the timing accuracy required between images in order to maintain an accurate sync with the actual daylight cycle. I might try to implement a systemd scheduler (with 1 second precision) to mitigate the performance impact (~5mb ram usage on auto interval on my relatively new laptop). 
 As mentioned earlier, I would also like to have more flexibility with timelapse format, and I might try implementing this in the future.
