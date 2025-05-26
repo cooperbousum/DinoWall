@@ -33,7 +33,7 @@ $ ./install.sh
 ```
 3. DinoWall is now installed! Follow the help menu for next steps.
 
-## Usage
+## Usage Suggestions
 Because dinowall is just a bash script, it is interrupted by things like reboots, hibernation, and sleep events. For this reason, if you want to launch it at startup or after reboot/sleep, you will need to run `dinowall -e` again. In hyprland, for example, I have
 ```hyprlang
 exec-once = bash -c 'sleep 2 && dinowall -e'
