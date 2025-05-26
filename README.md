@@ -1,5 +1,5 @@
 # DinoWall
-### A CLI for setting timelapse dynamic wallpapers using `swww`
+### A bash CLI for setting timelapse dynamic wallpapers using `swww`
 
 DinoWall is meant for use on compositors that implement `wlr-layer-shell` (because of swww's limitations) and with 24 hour timelapses starting at sunrise and ending at the next sunrise. Support may come in the future for other formats of timelapse (such as sunset to sunset), though these are not supported in this early version.
 
