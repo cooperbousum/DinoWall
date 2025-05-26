@@ -69,7 +69,7 @@ while getopts ":hd:cr:s:l:i:t:ep" option; do
     ;;
   i)
     set_var "interval" $OPTARG
-    echo "Set interval to $(get_Var "interval")"
+    echo "Set interval to $(get_var "interval")"
     ;;
   t)
     set_var "transition_type" $OPTARG
