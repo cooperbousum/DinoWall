@@ -10,10 +10,6 @@ if [[ -L /usr/bin/dino-daemon ]]; then
   sudo rm /usr/bin/dino-daemon
 fi
 
-if [[ -d "$/usr/bin/DinoWall" ]]; then
-  sudo rm -rf "/usr/bin/DinoWall"
-fi
-
 if [[ -d "$HOME/.local/bin/DinoWall" ]]; then
   sudo rm -rf "$HOME/.local/bin/DinoWall"
 fi

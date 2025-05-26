@@ -1,22 +1,7 @@
 #!/usr/bin/env bash
 
 current=$(pwd)
-while true; do
-  read -p "Install [l]ocally or [g]lobally [l/g]: " answer
-  case "$answer" in
-  [Ll]*)
-    echo "Installing for current user..."
-    destination="/.local/bin"
-    break
-    ;;
-  [Gg]*)
-    echo "Installing globally..."
-    dsetination="/usr/bin"
-    break
-    ;;
-  *) echo "Please enter l or g." ;;
-  esac
-done
+destination="$HOME/.local/bin"
 
 echo -e "\e[33mCreating installation directory\e[0m"
 if [[ -d "$destination/DinoWall" ]]; then
@@ -34,6 +19,7 @@ sudo chmod +x "$destination/DinoWall/lib/cache.sh"
 sudo chmod +x "$destination/DinoWall/lib/count.sh"
 sudo chmod +x "$destination/DinoWall/lib/sunrise.sh"
 sudo chmod +x "$destination/DinoWall/lib/sunset.sh"
+sudo chmod +w "$destination/DinoWall/lib/cache.json"
 
 if [[ -L /usr/bin/dinowall ]]; then
   echo -e "\e[31mRemoving old dinowall link...\e[0m"
