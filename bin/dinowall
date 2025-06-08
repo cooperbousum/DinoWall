@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+# DynoWall
+
+source_dir="/"
+dino_dir=$(dirname "$(realpath "${BASH_SOURCE[0]}")")/..
+
+# Print help and syntax
+help() {
+  echo -e "\e[32m           __
+          / _)
+   .-^^^-/ /
+__/       /
+<__.|_|-|_|
+\e[0m"
+  echo -e "\e[32mDinoWall\e[0m"
+  echo "A CLI for setting timelapse dynamic wallpapers using swww"
+  echo
+  echo -e "It is \e[31mstrongly\e[0m advised for you read the README if you are a new user in order to understand source directory requirements"
+  echo
+  echo -e "Syntax: dinowall \e[32m[option] \e[33m[argument]"
+  echo -e "\e[32m-h\e[0m                            Print this menu"
+  echo -e "\e[32m-d \e[33m[directory]\e[0m                Specify source directory, this is your home directory by default"
+  echo -e "\e[32m-c\e[0m                            Count files in the source directory"
+  echo -e "\e[32m-r \e[33m[file]\e[0m                     Set file to be used as the sunrise handle"
+  echo -e "\e[32m-s \e[33m[file]\e[0m                     Set file to be used as the sunset handle"
+  echo -e "\e[32m-l \e[33m[0-2]\e[0m                      Sets output level of DinoWall, 0 being none and 2 being the most (default)"
+  echo -e "\e[32m-i \e[33m[<s>/auto]\e[0m                 Sets interval (s) between images or auto for sunset-sunrise sync (default)"
+  echo -e "\e[32m-t \e[33m[transition-type]\e[0m         Sets transition type to be used by hyprpaper layer when setting images"
+  echo -e "\e[32m-p \e[33m[transition-speed]\e[0m         Sets the pace of the transition"
+  echo -e "\e[32m-e\e[0m                            exec the wallpaper setting daemon (dino-daemon). This will need to be run after reboots, sleep, and hibernation"
+  echo -e "\e[32m-o\e[0m                            Output all stored variables from DinoWall/lib/cache.json"
+}
+
+source "$dino_dir/lib/cache.sh"
+
+# Parse options
+while getopts ":hd:cr:s:l:i:t:p:eo" option; do
+  case $option in
+  h)
+    help
+    exit
+    ;;
+  \?)
+    help
+    exit
+    ;;
+  d)
+    set_var "source_dir" "$OPTARG"
+    echo "Set source directory to $(get_var "source_dir")"
+    ;;
+  c)
+    source "$dino_dir/commands/count.sh"
+    count $(get_var "source_dir")
+    exit
+    ;;
+  r)
+    source "$dino_dir/commands/ss.sh"
+    set_var "sunrise" "$OPTARG"
+    ssr "$OPTARG" $(get_var "source_dir")
+    ;;
+  s)
+    source "$dino_dir/commands/ss.sh"
+    set_var "sunset" "$OPTARG"
+    sss "$OPTARG" $(get_var "source_dir")
+    ;;
+  l)
+    set_var "loglevel" $OPTARG
+    echo "Set log level to $(get_var "loglevel")"
+    ;;
+  i)
+    set_var "interval" $OPTARG
+    echo "Set interval to $(get_var "interval")"
+    ;;
+  t)
+    set_var "transition_type" $OPTARG
+    echo "Set transition type to $(get_var "transition_type")"
+    ;;
+  p)
+    set_var "transition_speed" $OPTARG
+    echo "Set transition pace to $(get_var "transition_speed")"
+    ;;
+  e)
+    dino-daemon
+    echo "\e[32mStarted dino-daemon...\e[0m"
+    ;;
+  o)
+    source "$dino_dir/commands/print.sh"
+    print
+    ;;
+  esac
+done
+
+if [ $OPTIND -eq 1 ]; then
+  help
+  exit 1
+fi

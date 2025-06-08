@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+dino_dir=$(dirname "$(realpath "${BASH_SOURCE[0]}")")/..
+source "$dino_dir/lib/cache.sh"
+interval=$(get_var "interval")
+loglevel=$(get_var "loglevel")
+skip_to_current=$1
+source_dir=$(get_var "source_dir")
+transition_type=$(get_var "transition_type")
+transition_length=$(get_var "transition_length")
+
+sunrise="$("$dino_dir/lib/sunrise.sh")"
+sunset="$("$dino_dir/lib/sunset.sh")"
+
+day_length=$(($(date -d "$sunset" +%s) - $(date -d "$sunrise" +%s)))
+files_between=$("$dino_dir/lib/betweenfiles.sh" $source_dir)
+if [[ "$interval" == "auto" ]]; then
+  result=$(echo "$day_length / $files_between" | bc -l)
+else
+  result=$interval
+fi
+
+if [[ $("$dino_dir/lib/betweenfiles.sh" "$source_dir") = 1 ]]; then
+  echo "\e[31mIt does not appear that a sunrise and sunset image have been defined. Use dinowall -r [path_to_sunrise] and dinowall -s [path_to_sunset]\e[0m"
+  exit
+fi
+
+now=$(date)
+secs_from_sunrise=$(($(date -d "$now" +%s) - $(date -d "$sunrise" +%s)))
+if ((secs_from_sunrise < 0)); then
+  ((secs_from_sunrise = secs_from_sunrise + 86400))
+fi
+skip=$(echo "($secs_from_sunrise / $day_length) * $files_between" | bc -l)
+skip=${skip%.*}
+
+if [[ "$loglevel" == "2" ]]; then
+  echo "Found sunrise: $(date -d "$sunrise" +"%I:%M %p")"
+  echo "Found sunset: $(date -d "$sunset" +"%I:%M %p")"
+  echo "Found length of day: ${day_length}s or $files_between images"
+  echo "Calculated time between images: ${result}s"
+  echo "Current time: $(date -d "$now" +"%I:%M %p")"
+  echo "Time from sunrise: ${secs_from_sunrise}s"
+  echo "Images to skip from sunrise: $skip"
+fi
+
+if [[ "$skip_to_current" == "false" ]]; then
+  for file in $(ls "$source_dir" | sort -V); do
+    hyprctl hyprpaper reload ,"$source_dir/$file" -q
+    if [[ "$loglevel" == "1" || "$loglevel" == "2" ]]; then
+      echo -e "\e[32mSent $source_dir/$file\e[0m"
+    fi
+    sleep $result
+  done
+else
+  for file in $(ls "$source_dir" | sort -V | tail -n +$(($skip + 1))); do
+    hyprctl hyprpaper reload ,"$source_dir/$file" -q
+    if [[ "$loglevel" == "1" || "$loglevel" == "2" ]]; then
+      echo -e "\e[32mSent $source_dir/$file\e[0m"
+    fi
+    sleep $result
+  done
+fi
+
+exec "$0" false
