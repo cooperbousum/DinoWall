@@ -46,7 +46,6 @@ fi
 if [[ "$skip_to_current" == "false" ]]; then
   for file in $(ls "$source_dir" | sort -V); do
     hyprctl hyprpaper reload ,"$source_dir/$file" -q
-    WALLPAPER="$source_dir/$file"
     if [[ "$loglevel" == "1" || "$loglevel" == "2" ]]; then
       echo -e "\e[32mSent $source_dir/$file\e[0m"
     fi
@@ -55,7 +54,6 @@ if [[ "$skip_to_current" == "false" ]]; then
 else
   for file in $(ls "$source_dir" | sort -V | tail -n +$(($skip + 1))); do
     hyprctl hyprpaper reload ,"$source_dir/$file" -q
-    WALLPAPER="$source_dir/$file"
     if [[ "$loglevel" == "1" || "$loglevel" == "2" ]]; then
       echo -e "\e[32mSent $source_dir/$file\e[0m"
     fi
