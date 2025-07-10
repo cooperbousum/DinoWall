@@ -1,9 +1,7 @@
 {
   "loglevel": "2",
   "interval": "auto",
-  "transition_type": "fade",
-  "source_dir": "/home/cooperbousum/Downloads/choate1",
-  "sunrise": "/home/cooperbousum/Downloads/choate1/00000",
-  "sunset": "/home/cooperbousum/Downloads/choate1/00352",
-  "transition_speed": "15"
+  "source_dir": "",
+  "sunrise": "",
+  "sunset": "",
 }
